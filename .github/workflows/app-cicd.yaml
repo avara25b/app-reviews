@@ -1,0 +1,55 @@
+name: CI/CD for Review App
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+    deploy-app:
+        environment: |
+          ${{
+            github.ref == 'refs/heads/main' && 'production' ||
+            github.ref == 'refs/heads/develop' && 'staging' ||
+            startsWith(github.ref, 'refs/heads/feature/') && 'dev'
+          }}
+        runs-on: ubuntu-22.04
+        
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+
+        - name: Login to AWS Role
+          uses: aws-actions/configure-aws-credentials@v5.1.1
+          with:
+            aws-region: us-east-1
+            role-to-assume: ${{ secrets.IAM_ROLE }}
+            role-session-name: gha-login-session
+
+        - name: Login to Amazon ECR
+          id: login-ecr
+          uses: aws-actions/amazon-ecr-login@v2
+
+        - name: Backend - Build, tag, and push docker image to Amazon ECR
+          working-directory: ./api-backend/
+          env:
+            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+            REPOSITORY: reviews-backend
+            IMAGE_TAG: 0.1
+          run: |
+            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+        - name: Login to Kubernetes cluster
+          run: |
+            aws eks update-kubeconfig --name project-x-${{ vars.STAGE }}-tf-cluster
+
+        - name: Backend - Deploy to Kubernetes
+          run: |
+            kubectl apply -f api-backend/k8s/deployment.yaml
+            kubectl apply -f api-backend/k8s/service.yaml
