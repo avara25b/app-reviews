@@ -60,7 +60,7 @@ jobs:
             aws eks update-kubeconfig --name ${{ vars.STAGE }}-eks-cluster
             kubectl get nodes
 
-        # - name: Backend - Deploy to Kubernetes
-        #   run: |
-        #     kubectl apply -f api-backend/k8s/deployment.yaml
-        #     kubectl apply -f api-backend/k8s/service.yaml
+        - name: Backend - Deploy to Kubernetes
+          run: |
+            kubectl apply -f api-backend/k8s/deployment.yaml
+            kubectl apply -f api-backend/k8s/service.yaml
