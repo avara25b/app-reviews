@@ -62,5 +62,9 @@ jobs:
 
         - name: Backend - Deploy to Kubernetes
           run: |
-            kubectl apply -f api-backend/k8s/deployment.yaml
-            kubectl apply -f api-backend/k8s/service.yaml
+            helm upgrade --install reviews-backend-app ./k8s-app/  --values ./k8s-app/backend/${{ vars.STAGE }}-values.yaml
+          # ./k8s-app/ - it is the path to your Helm chart directory
+
+        - name: Frontend - Deploy to Kubernetes
+          run: |
+            helm upgrade --install reviews-frontend-app ./k8s-app/  --values ./k8s-app/frontend/${{ vars.STAGE }}-values.yaml
