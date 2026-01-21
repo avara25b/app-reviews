@@ -5,3 +5,6 @@ image:
   repo: 505789305843.dkr.ecr.us-east-1.amazonaws.com/reviews-backend
   tag: "0.1"
 serviceType: LoadBalancer
+resources: {}
+ingress:
+  enabled: false

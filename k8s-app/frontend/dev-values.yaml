@@ -5,3 +5,14 @@ image:
   repo: 505789305843.dkr.ecr.us-east-1.amazonaws.com/reviews-frontend
   tag: "0.1"
 serviceType: LoadBalancer
+resources:
+  requests:
+    memory: "25Mi"
+    cpu: "32m"
+  limits:
+    memory: "100Mi"
+    cpu: "64m"
+ingress:
+  enabled: true
+  endpoint: reviews-dev.exchangeweb.net
+  
