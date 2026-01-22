@@ -15,14 +15,4 @@ resources:
 ingress:
   enabled: true
   endpoint: reviews-dev.exchangeweb.net
-env:
-  - name: DB_USERNAME
-    value: "admin"
-  - name: DB_PASSWORD
-    value: "password123"
-  - name: DB_HOST
-    valueFrom:
-      secretKeyRef:
-        name: reviews-backend-secretes
-        key: db_host
-  
+env: []

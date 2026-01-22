@@ -62,9 +62,9 @@ jobs:
 
         - name: Backend - Deploy to Kubernetes
           run: |
-            helm upgrade --install reviews-backend-app ./k8s-app/  --values ./k8s-app/backend/${{ vars.STAGE }}-values.yaml
+            helm upgrade --install reviews-backend-app ./k8s-app/  --values ./k8s-app/backend/${{ vars.STAGE }}-values.yaml --namespace reviews-app --create-namespace
           # ./k8s-app/ - it is the path to your Helm chart directory
 
         # - name: Frontend - Deploy to Kubernetes
         #   run: |
-        #     helm upgrade --install reviews-frontend-app ./k8s-app/  --values ./k8s-app/frontend/${{ vars.STAGE }}-values.yaml
+        #     helm upgrade --install reviews-frontend-app ./k8s-app/  --values ./k8s-app/frontend/${{ vars.STAGE }}-values.yaml --namespace reviews-app --create-namespace
