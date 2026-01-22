@@ -45,15 +45,15 @@ jobs:
             docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
             docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-        - name: Frontend - Build, tag, and push docker image to Amazon ECR
-          working-directory: ./frontend/
-          env:
-            REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-            REPOSITORY: reviews-frontend
-            IMAGE_TAG: 0.1
-          run: |
-            docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
-            docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+        # - name: Frontend - Build, tag, and push docker image to Amazon ECR
+        #   working-directory: ./frontend/
+        #   env:
+        #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        #     REPOSITORY: reviews-frontend
+        #     IMAGE_TAG: 0.1
+        #   run: |
+        #     docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
         - name: Login to Kubernetes cluster
           run: |
