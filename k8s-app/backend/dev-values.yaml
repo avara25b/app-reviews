@@ -20,11 +20,11 @@ env:
       secretKeyRef:
         name: reviews-db-secretes
         key: password
-  - name: DB_HOST
+  - name: DB_ENDPOINT
     valueFrom:
       secretKeyRef:
         name: reviews-db-secretes
-        key: db-host
+        key: db-endpoint
   - name: DB_NAME
     valueFrom:
       secretKeyRef:
