@@ -1,5 +1,5 @@
 # use an official Python runtime as a base image
-FROM python:3.9-slim-buster
+FROM python:3.9-slim-bookworm
 
 # Set the working directory 
 WORKDIR /app
